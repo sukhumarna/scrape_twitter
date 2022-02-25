@@ -12,7 +12,7 @@ def get_tweets_by_hashtag(keyword: str,
                           limit: Optional[int] = Query(30, ge=1)):
     try:
         tweets_list = tws.get_tweets_by_keywords(keyword, limit)
-        resp = jsonable_encoder(tweets_list)
+        resp = tweets_list.tweets
     except Exception:
         raise HTTPException(status_code=status.HTTP_424_FAILED_DEPENDENCY, detail="external error")
     return resp
@@ -27,5 +27,5 @@ def get_user_tweets(username: str,
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="user does not exist")
     except Exception:
         raise HTTPException(status_code=status.HTTP_424_FAILED_DEPENDENCY, detail="external error")
-    resp = jsonable_encoder(tweets_list)
+    resp = tweets_list.tweets
     return resp
